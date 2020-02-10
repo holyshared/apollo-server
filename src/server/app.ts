@@ -12,11 +12,20 @@ app.use(
   }),
 );
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+  logger.info(`${req.method} ${req.path}`);
+  next();
+});
+
 app.use((err, req: Request, res: Response, _: NextFunction) => {
   if (err.status) {
     return res.status(err.status).send(err.message);
   }
   return res.status(500).send(err.message);
+});
+
+app.get('/', (req: Request, res: Response, _: NextFunction) => {
+  return res.send('ok');
 });
 
 const server = app.listen(process.env.PORT || 3000);

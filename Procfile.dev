@@ -1,0 +1,2 @@
+dev-server: npm run start:dev
+webpack-server: npm run watch:server

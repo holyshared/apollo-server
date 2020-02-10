@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "foreman start -f Procfile.dev",
     "start:dev": "GRAPTHIQL_ENABLED=true nodemon dist/app.js",
     "build:server": "webpack --config .webpack/server.js",
     "build": "yarn build:server",
