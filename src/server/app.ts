@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import express from 'express';
 import { logger } from './logger';
+import * as actions from './actions';
 
 const app = express();
 
@@ -24,9 +25,7 @@ app.use((err, req: Request, res: Response, _: NextFunction) => {
   return res.status(500).send(err.message);
 });
 
-app.get('/', (req: Request, res: Response, _: NextFunction) => {
-  return res.send('ok');
-});
+app.get('/', actions.top);
 
 const server = app.listen(process.env.PORT || 3000);
 
