@@ -1,0 +1,7 @@
+{
+  "verbose": false,
+  "ext": "js",
+  "ignore": [
+    "public/assets/*"
+  ]
+}

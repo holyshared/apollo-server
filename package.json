@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "GRAPTHIQL_ENABLED=true nodemon dist/app.js",
+    "build:server": "webpack --config .webpack/server.js",
+    "build": "yarn build:server",
+    "watch:server": "NODE_ENV=development webpack --watch --config .webpack/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +28,9 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "nodemon": "^2.0.2",
     "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-node-externals": "^1.7.2"
