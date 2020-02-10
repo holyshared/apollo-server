@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Request, Response, NextFunction } from "express";
 import { renderToNodeStream } from 'react-dom/server';
-import { TopPage } from '../client/components/pages/TopPage';
+import { TopPage } from '../universal/components/pages/TopPage';
 
 const DOCTYPE = "<!DOCTYPE html>";
 
