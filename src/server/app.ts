@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import express from 'express';
 import { logger } from './logger';
-import * as actions from './actions';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { Main } from '../universal/components/Main';
 
 const app = express();
 
@@ -13,9 +15,42 @@ app.use(
   }),
 );
 
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, _res: Response, next: NextFunction) => {
   logger.info(`${req.method} ${req.path}`);
   next();
+});
+
+app.use((req: Request, res: Response, _: NextFunction) => {
+  const context : { url?: string } = {};
+  const render = React.createFactory(Main);
+
+  logger.info('start render page');
+  logger.info(`url: ${req.url}`);
+
+  const renderedComponent = render( { url: req.url, context });
+  const html = renderToString(renderedComponent);
+
+  const result = `
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    ${html}
+  </body>
+</html>
+`;
+
+  logger.info('context.url');
+  logger.info(context.url);
+
+  if (context.url) {
+    res.writeHead(302, { Location: context.url });
+    res.end();
+  } else {
+    res.write(result);
+    res.end();
+  }
 });
 
 app.use((err, req: Request, res: Response, _: NextFunction) => {
@@ -25,9 +60,11 @@ app.use((err, req: Request, res: Response, _: NextFunction) => {
   return res.status(500).send(err.message);
 });
 
+/*
 app.get('/', actions.top);
 app.get('/a', actions.a);
 app.get('/b', actions.b);
+*/
 
 const server = app.listen(process.env.PORT || 3000);
 
