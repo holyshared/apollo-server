@@ -26,6 +26,8 @@ app.use((err, req: Request, res: Response, _: NextFunction) => {
 });
 
 app.get('/', actions.top);
+app.get('/a', actions.a);
+app.get('/b', actions.b);
 
 const server = app.listen(process.env.PORT || 3000);
 
