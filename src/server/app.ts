@@ -41,13 +41,15 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     ${helmet.link.toString()}
   </head>
   <body ${helmet.bodyAttributes.toString()}>
-    ${html}
+    <article id="app">
+      ${html}
+    </article>
   </body>
 </html>
 `;
 
-  logger.info('context.url');
-  logger.info(context.url);
+  logger.info('context: ');
+  logger.info(JSON.stringify(context));
 
   if (context.url) {
     res.writeHead(302, { Location: context.url });
