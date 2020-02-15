@@ -4,7 +4,7 @@ import { logger } from './logger';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Helmet } from 'react-helmet';
-import { Main } from '../universal/components/Main';
+import { App } from '../universal/components/App';
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 app.use((req: Request, res: Response, _: NextFunction) => {
   const context : { url?: string } = {};
-  const render = React.createFactory(Main);
+  const render = React.createFactory(App);
 
   logger.info('start render page');
   logger.info(`url: ${req.url}`);
