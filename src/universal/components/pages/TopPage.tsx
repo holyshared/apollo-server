@@ -4,10 +4,10 @@ import { Helmet } from "react-helmet";
 export const TopPage = () => {
   return (
     <React.Fragment>
-      <Helmet>
+      <Helmet titleTemplate="%s | site">
         <meta charSet="utf-8" />
-        <title>My Title</title>
-        <link rel="canonical" href="http://mysite.com/example" />
+        <title>Top</title>
+        <meta name="keywords" content="blog" />
       </Helmet>
       <h1>Top</h1>
     </React.Fragment>

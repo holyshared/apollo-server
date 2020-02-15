@@ -6,8 +6,7 @@ export const APage = () => {
     <React.Fragment>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>My Title</title>
-        <link rel="canonical" href="http://mysite.com/example" />
+        <title>A</title>
       </Helmet>
       <h1>A</h1>
     </React.Fragment>

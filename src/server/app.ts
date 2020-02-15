@@ -3,6 +3,7 @@ import express from 'express';
 import { logger } from './logger';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import { Helmet } from 'react-helmet';
 import { Main } from '../universal/components/Main';
 
 const app = express();
@@ -29,13 +30,17 @@ app.use((req: Request, res: Response, _: NextFunction) => {
 
   const renderedComponent = render( { url: req.url, context });
   const html = renderToString(renderedComponent);
+  const helmet = Helmet.renderStatic();
 
   const result = `
 <!doctype html>
-<html>
+<html ${helmet.htmlAttributes.toString()}>
   <head>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
+    ${helmet.link.toString()}
   </head>
-  <body>
+  <body ${helmet.bodyAttributes.toString()}>
     ${html}
   </body>
 </html>
