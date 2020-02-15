@@ -1,13 +1,12 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
+import { Header } from "../Header";
 
 export const APage = () => {
   return (
     <React.Fragment>
-      <Helmet>
-        <meta charSet="utf-8" />
+      <Header>
         <title>A</title>
-      </Helmet>
+      </Header>
       <h1>A</h1>
     </React.Fragment>
   );

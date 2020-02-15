@@ -1,14 +1,13 @@
 import React from 'react';
-import { Helmet } from "react-helmet";
+import { Header } from "../Header";
 
 export const TopPage = () => {
   return (
     <React.Fragment>
-      <Helmet titleTemplate="%s | site">
-        <meta charSet="utf-8" />
+      <Header>
         <title>Top</title>
         <meta name="keywords" content="blog" />
-      </Helmet>
+      </Header>
       <h1>Top</h1>
     </React.Fragment>
   );
