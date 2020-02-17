@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FunctionComponentElement } from "react";
 import { Header } from "../Header";
 
-export const APage = () => {
+export const APage = (): FunctionComponentElement<{}> => {
   return (
     <React.Fragment>
       <Header>

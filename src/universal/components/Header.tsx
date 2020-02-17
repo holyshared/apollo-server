@@ -1,11 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { PropsWithChildren, FunctionComponentElement } from "react";
 import { Helmet } from "react-helmet";
 
-type Props = {
-  children?: ReactNode
-};
+type Props = {};
 
-export const Header = (props: Props) => {
+export const Header = (props: PropsWithChildren<Props>): FunctionComponentElement<Props> => {
   const { children } = props;
   return (
     <Helmet titleTemplate="%s | app">

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponentElement } from "react";
 import { Status } from "./Status";
 import { Header } from "../Header";
 
-export const NotFoundPage = () => {
+export const NotFoundPage = (): FunctionComponentElement<{}> => {
   return (
     <Status code={404}>
       <Header>

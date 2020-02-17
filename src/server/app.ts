@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import express from 'express';
-import { logger } from './logger';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { Helmet } from 'react-helmet';
-import { App } from '../universal/components/App';
+import express from "express";
+import { logger } from "./logger";
+import React from "react";
+import { renderToString } from "react-dom/server";
+import { Helmet } from "react-helmet";
+import { App } from "../universal/components/App";
 
 const app = express();
 
@@ -22,13 +22,13 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 });
 
 app.use((req: Request, res: Response, _: NextFunction) => {
-  const context : { url?: string } = {};
+  const context: { url?: string } = {};
   const render = React.createFactory(App);
 
-  logger.info('start render page');
+  logger.info("start render page");
   logger.info(`url: ${req.url}`);
 
-  const renderedComponent = render( { url: req.url, context });
+  const renderedComponent = render({ url: req.url, context });
   const html = renderToString(renderedComponent);
   const helmet = Helmet.renderStatic();
 
@@ -48,7 +48,7 @@ app.use((req: Request, res: Response, _: NextFunction) => {
 </html>
 `;
 
-  logger.info('context: ');
+  logger.info("context: ");
   logger.info(JSON.stringify(context));
 
   if (context.url) {
@@ -75,7 +75,7 @@ app.get('/b', actions.b);
 
 const server = app.listen(process.env.PORT || 3000);
 
-const processExit = () => {
+const processExit = (): void => {
   logger.info("worker %d start shutdown", process.pid);
 
   if (!server) {

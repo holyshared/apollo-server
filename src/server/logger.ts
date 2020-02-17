@@ -3,11 +3,11 @@ import winston from "winston";
 const { format, createLogger, transports } = winston;
 
 export const logger = createLogger({
-  level: 'info',
+  level: "info",
   format: format.combine(format.splat(), format.simple()),
   transports: [
     new transports.File({
-      filename: './application.log',
+      filename: "./application.log",
     }),
   ],
 });
