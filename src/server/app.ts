@@ -44,6 +44,8 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     <article id="app">
       ${html}
     </article>
+    <script type="text/javascript" src="/assets/js/bundle.js"></script>
+    <script type="text/javascript" src="/assets/js/app.js"></script>
   </body>
 </html>
 `;
