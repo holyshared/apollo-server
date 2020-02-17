@@ -1,24 +1,24 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, PropsWithChildren, FunctionComponentElement } from "react";
 import { Route } from "react-router-dom";
 
 type Props = {
-  code: number,
-  children?: ReactNode
+  code: number;
 };
 
 type StaticContext = {
-  status: number,
+  status: number;
 };
 
-export const Status = ({ code, children }: Props) => {
-  const render = ({ staticContext }: { staticContext: StaticContext }) => {
+export const Status = ({
+  code,
+  children,
+}: PropsWithChildren<Props>): FunctionComponentElement<Props> => {
+  const render = ({ staticContext }: { staticContext: StaticContext }): ReactNode => {
     if (staticContext) {
       staticContext.status = code;
     }
     return children;
   };
 
-  return (
-    <Route render={render} />
-  );
+  return <Route render={render} />;
 };

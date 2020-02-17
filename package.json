@@ -10,7 +10,8 @@
     "build:client": "webpack --config .webpack/client.js",
     "build": "yarn build:client && yarn build:server",
     "watch:server": "NODE_ENV=development webpack --watch --config .webpack/server.js",
-    "watch:client": "NODE_ENV=development PORT=5000 webpack --watch --config .webpack/client.js"
+    "watch:client": "NODE_ENV=development PORT=5000 webpack --watch --config .webpack/client.js",
+    "eslint": "node_modules/.bin/eslint --ext .tsx,.ts --fix src"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/holyshared/apollo-server#readme",
   "dependencies": {
+    "@types/react": "^16.9.19",
     "apollo-boost": "^0.4.7",
     "apollo-server-express": "^2.10.0",
     "clean-webpack-plugin": "^3.0.0",
@@ -35,7 +37,14 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
     "nodemon": "^2.0.2",
+    "prettier": "^1.19.1",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.5",
