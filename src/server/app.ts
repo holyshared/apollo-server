@@ -22,11 +22,8 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 });
 
 app.use((req: Request, res: Response, _: NextFunction) => {
-  const context: { url?: string } = {};
+  const context: { url?: string, status?: number } = {};
   const render = React.createFactory(App);
-
-  logger.info("start render page");
-  logger.info(`url: ${req.url}`);
 
   const renderedComponent = render({ url: req.url, context });
   const html = renderToString(renderedComponent);
@@ -50,13 +47,13 @@ app.use((req: Request, res: Response, _: NextFunction) => {
 </html>
 `;
 
-  logger.info("context: ");
-  logger.info(JSON.stringify(context));
-
   if (context.url) {
     res.writeHead(302, { Location: context.url });
     res.end();
   } else {
+    if (context.status) {
+      res.statusCode = context.status;
+    }
     res.write(result);
     res.end();
   }
