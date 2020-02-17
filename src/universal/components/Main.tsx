@@ -24,7 +24,7 @@ export const Main = (): FunctionComponentElement<{}> => {
       <Switch>
         <Route path="/a" component={APage} />
         <Route path="/b" component={BPage} />
-        <Route path="/" component={TopPage} />
+        <Route exact path="/" component={TopPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </React.Fragment>
