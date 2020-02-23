@@ -19,9 +19,7 @@ const Opened = (): FunctionComponentElement<{}> => <p>opened</p>;
 export const TopPage = (): FunctionComponentElement<{}> => {
   const [opened, open] = useState(false);
   const click = (): void => open(!opened);
-  const { loading, error, data } = useQuery(GET_TOP_PAGE, {
-    ssr: true,
-  });
+  const { loading, error, data } = useQuery(GET_TOP_PAGE);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{`Error! ${error.message}`}</p>;
   const { page: { loginUser } } = data;
