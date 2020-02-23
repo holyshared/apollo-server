@@ -8,9 +8,9 @@ type GraphQLVariables = {};
 
 type GraphQLResponse = {
   loginUser?: {
-    name: string,
-    loggedIn: boolean
-  }
+    name: string;
+    loggedIn: boolean;
+  };
 };
 
 export const getTopPage = async (
