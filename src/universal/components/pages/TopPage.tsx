@@ -5,7 +5,7 @@ import { Header } from "../Header";
 
 const GET_TOP_PAGE = gql`
   query getTopPage {
-    getTopPage {
+    page: getTopPage {
       loginUser {
         name
         loggedIn
@@ -32,7 +32,7 @@ export const TopPage = (): FunctionComponentElement<{}> => {
       </Header>
       <h1>Top</h1>
       <p>
-        <p>{data.getTopPage.loginUser.name}</p>
+        <p>{data.page.loginUser.name}</p>
         <button type="button" onClick={click}>
           Click
         </button>
