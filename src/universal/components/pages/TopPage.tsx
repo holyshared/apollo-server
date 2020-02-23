@@ -31,8 +31,8 @@ export const TopPage = (): FunctionComponentElement<{}> => {
         <meta name="keywords" content="blog" />
       </Header>
       <h1>Top</h1>
+      <p>{data.page.loginUser.name}</p>
       <p>
-        <p>{data.page.loginUser.name}</p>
         <button type="button" onClick={click}>
           Click
         </button>
