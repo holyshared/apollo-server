@@ -24,14 +24,16 @@ export const TopPage = (): FunctionComponentElement<{}> => {
   });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{`Error! ${error.message}`}</p>;
+  const { page: { loginUser } } = data;
   return (
     <React.Fragment>
       <Header>
         <title>Top</title>
         <meta name="keywords" content="blog" />
+        <meta name="description" content={loginUser.name} />
       </Header>
       <h1>Top</h1>
-      <p>{data.page.loginUser.name}</p>
+      <p>{loginUser.name}</p>
       <p>
         <button type="button" onClick={click}>
           Click
