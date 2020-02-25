@@ -22,7 +22,9 @@ export const TopPage = (): FunctionComponentElement<{}> => {
   const { loading, error, data } = useQuery(GET_TOP_PAGE);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{`Error! ${error.message}`}</p>;
-  const { page: { loginUser } } = data;
+  const {
+    page: { loginUser },
+  } = data;
   return (
     <React.Fragment>
       <Header>

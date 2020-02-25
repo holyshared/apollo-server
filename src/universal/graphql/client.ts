@@ -5,7 +5,7 @@ const DEVELOPMENT_HOST = "localhost:5000";
 const PRODUCTION_HOST = process.env.HOST_NAME;
 
 const isBrowser = typeof window === "object";
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === "production";
 
 export const GRAPHQL_ENDPOINT = (function(): string {
   let protocol = "http:";
