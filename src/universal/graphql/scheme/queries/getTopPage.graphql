@@ -1,0 +1,8 @@
+query getTopPage {
+  page: getTopPage {
+    loginUser {
+      name
+      loggedIn
+    }
+  }
+}
