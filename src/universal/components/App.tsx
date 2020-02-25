@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, FunctionComponentElement } from "react";
-
 import { StaticRouter } from "react-router";
 import { Main } from "./Main";
+import { client } from "../graphql";
+import { ApolloProvider } from "@apollo/react-hooks";
 
 export type Props = {
   url: string;
@@ -11,8 +12,10 @@ export type Props = {
 export const App = (props: PropsWithChildren<Props>): FunctionComponentElement<Props> => {
   const { url, context } = props;
   return (
-    <StaticRouter location={url} context={context}>
-      <Main />
-    </StaticRouter>
+    <ApolloProvider client={client}>
+      <StaticRouter location={url} context={context}>
+        <Main />
+      </StaticRouter>
+    </ApolloProvider>
   );
 };

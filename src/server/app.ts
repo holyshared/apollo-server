@@ -1,9 +1,10 @@
-import { Request, Response, NextFunction } from "express";
-import express from "express";
-import { logger } from "./logger";
 import React from "react";
+import { Request, Response, NextFunction } from "express";
 import { renderToString } from "react-dom/server";
 import { Helmet } from "react-helmet";
+import express from "express";
+import { logger } from "./logger";
+import { graphqlServer } from "./graphql";
 import { App } from "../universal/components/App";
 
 const app = express();
@@ -21,8 +22,10 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
   next();
 });
 
+graphqlServer.applyMiddleware({ app });
+
 app.use((req: Request, res: Response, _: NextFunction) => {
-  const context: { url?: string, status?: number } = {};
+  const context: { url?: string; status?: number } = {};
   const render = React.createFactory(App);
 
   const renderedComponent = render({ url: req.url, context });

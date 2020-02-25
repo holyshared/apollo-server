@@ -1,0 +1,1 @@
+export { getTopPage } from "./top";

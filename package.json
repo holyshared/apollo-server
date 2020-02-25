@@ -18,17 +18,19 @@
     "url": "git+https://github.com/holyshared/apollo-server.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "The MIT license",
   "bugs": {
     "url": "https://github.com/holyshared/apollo-server/issues"
   },
   "homepage": "https://github.com/holyshared/apollo-server#readme",
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
     "@types/react": "^16.9.19",
     "apollo-boost": "^0.4.7",
     "apollo-server-express": "^2.10.0",
     "clean-webpack-plugin": "^3.0.0",
     "express": "^4.17.1",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^5.2.1",
