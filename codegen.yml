@@ -4,11 +4,11 @@ schema:
 documents:
   - ./src/universal/graphql/scheme/queries/*.graphql
 generates:
-  ./src/server/gen/graphql-resolver-types.ts:
+  ./src/server/gen/graphql-resolver.ts:
     plugins:
       - typescript
       - typescript-resolvers
-  ./src/client/gen/graphql-client-api.tsx:
+  ./src/client/gen/graphql-client.tsx:
     plugins:
       - typescript
       - typescript-operations
