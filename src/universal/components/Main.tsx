@@ -1,10 +1,12 @@
 import React, { FunctionComponentElement } from "react";
 import { Switch, Route, Link } from "react-router-dom";
-import { TopPage } from "../components/pages/TopPage";
-import { APage } from "../components/pages/APage";
-import { BPage } from "../components/pages/BPage";
-import { UserPage } from "../components/pages/UserPage";
+import { RouteProps } from "react-router";
 import { NotFoundPage } from "../components/pages/NotFoundPage";
+import { routes } from "./routes";
+
+interface LoadableRouteProps extends RouteProps {
+  loadData?: (match: any) => Promise<any>;
+}
 
 export const Main = (): FunctionComponentElement<{}> => {
   return (
@@ -23,10 +25,9 @@ export const Main = (): FunctionComponentElement<{}> => {
         </ul>
       </nav>
       <Switch>
-        <Route path="/a" component={APage} />
-        <Route path="/b" component={BPage} />
-        <Route path="/users/:id" component={UserPage} />
-        <Route exact path="/" component={TopPage} />
+        {routes.map((route, i) => (
+          <Route<LoadableRouteProps> key={i} {...route} />
+        ))}
         <Route component={NotFoundPage} />
       </Switch>
     </React.Fragment>

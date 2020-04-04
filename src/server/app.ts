@@ -6,6 +6,8 @@ import express from "express";
 import { logger } from "./logger";
 import { graphqlServer } from "./graphql";
 import { App } from "../universal/components/App";
+import { matchPath } from "react-router-dom";
+import { routes } from "../universal/components/routes";
 
 const app = express();
 
@@ -25,41 +27,53 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 graphqlServer.applyMiddleware({ app });
 
 app.use((req: Request, res: Response, _: NextFunction) => {
+  const promises = [];
   const context: { url?: string; statusCode?: number } = {};
-  const render = React.createFactory(App);
 
-  const renderedComponent = render({ url: req.url, context });
-  const html = renderToString(renderedComponent);
-  const helmet = Helmet.renderStatic();
-
-  const result = `
-<!doctype html>
-<html ${helmet.htmlAttributes.toString()}>
-  <head>
-    ${helmet.title.toString()}
-    ${helmet.meta.toString()}
-    ${helmet.link.toString()}
-  </head>
-  <body ${helmet.bodyAttributes.toString()}>
-    <article id="app">
-      ${html}
-    </article>
-    <script type="text/javascript" src="/assets/js/bundle.js"></script>
-    <script type="text/javascript" src="/assets/js/app.js"></script>
-  </body>
-</html>
-`;
-
-  if (context.url) {
-    res.writeHead(302, { Location: context.url });
-    res.end();
-  } else {
-    if (context.statusCode) {
-      res.statusCode = context.statusCode;
+  routes.some((route) => {
+    const match = matchPath(req.path, route);
+    if (match && route.loadData) {
+      promises.push(route.loadData(match));
     }
-    res.write(result);
-    res.end();
-  }
+    return match;
+  });
+
+  Promise.all(promises).then((_data) => {
+    const render = React.createFactory(App);
+
+    const renderedComponent = render({ url: req.url, context });
+    const html = renderToString(renderedComponent);
+    const helmet = Helmet.renderStatic();
+
+    const result = `
+  <!doctype html>
+  <html ${helmet.htmlAttributes.toString()}>
+    <head>
+      ${helmet.title.toString()}
+      ${helmet.meta.toString()}
+      ${helmet.link.toString()}
+    </head>
+    <body ${helmet.bodyAttributes.toString()}>
+      <article id="app">
+        ${html}
+      </article>
+      <script type="text/javascript" src="/assets/js/bundle.js"></script>
+      <script type="text/javascript" src="/assets/js/app.js"></script>
+    </body>
+  </html>
+  `;
+
+    if (context.url) {
+      res.writeHead(302, { Location: context.url });
+      res.end();
+    } else {
+      if (context.statusCode) {
+        res.statusCode = context.statusCode;
+      }
+      res.write(result);
+      res.end();
+    }
+  });
 });
 
 app.use((err, req: Request, res: Response, _: NextFunction) => {
