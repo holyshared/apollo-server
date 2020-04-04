@@ -38,10 +38,11 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     return match;
   });
 
-  Promise.all(promises).then((_data) => {
+  Promise.all(promises).then((data) => {
     const render = React.createFactory(App);
 
-    const renderedComponent = render({ url: req.url, context });
+    const loadedData = data ? data[0]: null;
+    const renderedComponent = render({ url: req.url, context: { ...context, data: loadedData } });
     const html = renderToString(renderedComponent);
     const helmet = Helmet.renderStatic();
 
@@ -54,9 +55,10 @@ app.use((req: Request, res: Response, _: NextFunction) => {
       ${helmet.link.toString()}
     </head>
     <body ${helmet.bodyAttributes.toString()}>
-      <article id="app">
-        ${html}
-      </article>
+      <article id="app">${html}</article>
+      <script type="text/javascript">
+        window.__APP_DATA = ${JSON.stringify(loadedData)};
+      </script>
       <script type="text/javascript" src="/assets/js/bundle.js"></script>
       <script type="text/javascript" src="/assets/js/app.js"></script>
     </body>

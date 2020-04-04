@@ -3,6 +3,6 @@ import ReactDOM from "react-dom";
 import { AppShell } from "./AppShell";
 
 const render = React.createFactory(AppShell);
-const page = render({});
+const page = render({ });
 
-ReactDOM.render(page, document.getElementById("app"));
+ReactDOM.hydrate(page, document.getElementById("app"));
