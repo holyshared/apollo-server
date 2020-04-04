@@ -25,7 +25,7 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 graphqlServer.applyMiddleware({ app });
 
 app.use((req: Request, res: Response, _: NextFunction) => {
-  const context: { url?: string; status?: number } = {};
+  const context: { url?: string; statusCode?: number } = {};
   const render = React.createFactory(App);
 
   const renderedComponent = render({ url: req.url, context });
@@ -54,8 +54,8 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     res.writeHead(302, { Location: context.url });
     res.end();
   } else {
-    if (context.status) {
-      res.statusCode = context.status;
+    if (context.statusCode) {
+      res.statusCode = context.statusCode;
     }
     res.write(result);
     res.end();
