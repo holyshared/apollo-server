@@ -7,7 +7,7 @@ const PRODUCTION_HOST = process.env.HOST_NAME;
 const isBrowser = typeof window === "object";
 const isProduction = process.env.NODE_ENV === "production";
 
-export const GRAPHQL_ENDPOINT = (function(): string {
+export const GRAPHQL_ENDPOINT = (function (): string {
   let protocol = "http:";
   let host = DEVELOPMENT_HOST;
   if (isBrowser && window.location.host !== DEVELOPMENT_HOST) {
