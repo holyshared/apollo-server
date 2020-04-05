@@ -42,7 +42,10 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     const render = React.createFactory(App);
 
     const loadedData = data ? data[0]: null;
-    const renderedComponent = render({ url: req.url, context: { ...context, data: loadedData } });
+    const renderedComponent = render({
+      url: req.url,
+      context: Object.assign(context, { data: loadedData })
+    });
     const html = renderToString(renderedComponent);
     const helmet = Helmet.renderStatic();
 
