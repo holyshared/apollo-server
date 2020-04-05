@@ -26,6 +26,33 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 graphqlServer.applyMiddleware({ app });
 
+
+const renderHtml = (renderedComponent, payload) => {
+  const html = renderToString(renderedComponent);
+  const helmet = Helmet.renderStatic();
+
+  return `
+<!doctype html>
+<html ${helmet.htmlAttributes.toString()}>
+  <head>
+    ${helmet.title.toString()}
+    ${helmet.meta.toString()}
+    ${helmet.link.toString()}
+  </head>
+  <body ${helmet.bodyAttributes.toString()}>
+    <article id="app">${html}</article>
+    <script type="text/javascript">
+      window.__APP_DATA = ${JSON.stringify(payload)};
+    </script>
+    <script type="text/javascript" src="/assets/js/bundle.js"></script>
+    <script type="text/javascript" src="/assets/js/app.js"></script>
+  </body>
+</html>
+`;
+};
+
+const renderComponent = React.createFactory(App);
+
 app.use((req: Request, res: Response, _: NextFunction) => {
   const promises = [];
   const context: { url?: string; statusCode?: number } = {};
@@ -39,34 +66,12 @@ app.use((req: Request, res: Response, _: NextFunction) => {
   });
 
   Promise.all(promises).then((data) => {
-    const render = React.createFactory(App);
-
     const loadedData = data ? data[0]: null;
-    const renderedComponent = render({
+    const renderedComponent = renderComponent({
       url: req.url,
       context: Object.assign(context, { data: loadedData })
     });
-    const html = renderToString(renderedComponent);
-    const helmet = Helmet.renderStatic();
-
-    const result = `
-  <!doctype html>
-  <html ${helmet.htmlAttributes.toString()}>
-    <head>
-      ${helmet.title.toString()}
-      ${helmet.meta.toString()}
-      ${helmet.link.toString()}
-    </head>
-    <body ${helmet.bodyAttributes.toString()}>
-      <article id="app">${html}</article>
-      <script type="text/javascript">
-        window.__APP_DATA = ${JSON.stringify(loadedData)};
-      </script>
-      <script type="text/javascript" src="/assets/js/bundle.js"></script>
-      <script type="text/javascript" src="/assets/js/app.js"></script>
-    </body>
-  </html>
-  `;
+    const result = renderHtml(renderedComponent, loadedData);
 
     if (context.url) {
       res.writeHead(302, { Location: context.url });
