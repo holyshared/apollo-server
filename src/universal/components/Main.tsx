@@ -1,12 +1,7 @@
 import React, { FunctionComponentElement } from "react";
-import { Switch, Route, Link } from "react-router-dom";
-import { RouteProps } from "react-router";
-import { NotFoundPage } from "../components/pages/NotFoundPage";
+import { Link } from "react-router-dom";
+import { renderRoutes } from "react-router-config";
 import { routes } from "./routes";
-
-interface LoadableRouteProps extends RouteProps {
-  loadData?: (match: any) => Promise<any>;
-}
 
 export const Main = (): FunctionComponentElement<{}> => {
   return (
@@ -24,12 +19,7 @@ export const Main = (): FunctionComponentElement<{}> => {
           </li>
         </ul>
       </nav>
-      <Switch>
-        {routes.map((route, i) => (
-          <Route<LoadableRouteProps> key={i} {...route} />
-        ))}
-        <Route component={NotFoundPage} />
-      </Switch>
+      {renderRoutes(routes)}
     </React.Fragment>
   );
 };
