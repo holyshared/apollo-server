@@ -1,9 +1,15 @@
 import React, { FunctionComponentElement } from "react";
 import { Link } from "react-router-dom";
+import { StaticContext } from "react-router";
 import { renderRoutes } from "react-router-config";
 import { routes } from "./routes";
 
-export const Main = (): FunctionComponentElement<{}> => {
+interface MainProps {
+  staticContext?: StaticContext & { data: any };
+};
+
+export const Main = (props: MainProps): FunctionComponentElement<MainProps> => {
+  const extraProps = props.staticContext ? { staticContext:  props.staticContext } : {};
   return (
     <React.Fragment>
       <nav>
@@ -19,7 +25,7 @@ export const Main = (): FunctionComponentElement<{}> => {
           </li>
         </ul>
       </nav>
-      {renderRoutes(routes)}
+      {renderRoutes(routes, extraProps)}
     </React.Fragment>
   );
 };

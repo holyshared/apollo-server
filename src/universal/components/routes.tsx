@@ -33,19 +33,16 @@ export const routes: LoadableRouteProps[] = [
         return Promise.resolve(null);
       }
     },
-    render: (props: RouteComponentProps<any, { data?: { name: string } } & StaticContext, {}>) => {
+    render: (props: RouteComponentProps<{ id: string }, { data?: { name: string } } & StaticContext, {}>) => {
       const { staticContext } = props;
-      let data = null;
-      if (staticContext) {
-        data = staticContext?.data;
-      } else {
-        const a = window as Window & typeof globalThis & { __APP_DATA: { name: string } };
-        data = a.__APP_DATA;
-      }
+      const data = staticContext.data ? staticContext.data : null;
       if (!data) {
         return <NotFoundPage />;
       }
       return <UserPage {...data} />;
     } 
   },
+  {
+    component: NotFoundPage
+  }
 ];
