@@ -5,11 +5,11 @@ import { renderRoutes } from "react-router-config";
 import { routes } from "./routes";
 
 interface MainProps {
-  staticContext?: StaticContext & { data: any };
-};
+  staticContext?: StaticContext & { data?: any; error?: { message: string } };
+}
 
 export const Main = (props: MainProps): FunctionComponentElement<MainProps> => {
-  const extraProps = props.staticContext ? { staticContext:  props.staticContext } : {};
+  const extraProps = props.staticContext ? { staticContext: props.staticContext } : {};
   return (
     <React.Fragment>
       <nav>

@@ -26,8 +26,9 @@ app.use((req: Request, _res: Response, next: NextFunction) => {
 
 graphqlServer.applyMiddleware({ app });
 
-
-const renderHtml = (renderedComponent, payload) => {
+const renderHtml = (url, context, payload = {}) => {
+  const renderComponent = React.createFactory(App);
+  const renderedComponent = renderComponent({ url, context });
   const html = renderToString(renderedComponent);
   const helmet = Helmet.renderStatic();
 
@@ -43,6 +44,7 @@ const renderHtml = (renderedComponent, payload) => {
     <article id="app">${html}</article>
     <script type="text/javascript">
       window.__APP_DATA = ${JSON.stringify(payload)};
+      window.__APP_ERROR = ${JSON.stringify(context.error)};
     </script>
     <script type="text/javascript" src="/assets/js/bundle.js"></script>
     <script type="text/javascript" src="/assets/js/app.js"></script>
@@ -51,7 +53,18 @@ const renderHtml = (renderedComponent, payload) => {
 `;
 };
 
-const renderComponent = React.createFactory(App);
+const sendResponse = (res, result, context) => {
+  if (context.url) {
+    res.writeHead(302, { Location: context.url });
+    res.end();
+  } else {
+    if (context.statusCode) {
+      res.statusCode = context.statusCode;
+    }
+    res.write(result);
+    res.end();
+  }
+};
 
 app.use((req: Request, res: Response, _: NextFunction) => {
   const promises = [];
@@ -65,25 +78,19 @@ app.use((req: Request, res: Response, _: NextFunction) => {
     return match;
   });
 
-  Promise.all(promises).then((data) => {
-    const loadedData = data ? data[0]: null;
-    const renderedComponent = renderComponent({
-      url: req.url,
-      context: Object.assign(context, { data: loadedData })
+  Promise.all(promises)
+    .then((data) => {
+      const loadedData = data ? data[0] : null;
+      const result = renderHtml(req.url, Object.assign(context, { data: loadedData }), loadedData);
+      sendResponse(res, result, context);
+    })
+    .catch((_err) => {
+      const result = renderHtml(
+        req.url,
+        Object.assign(context, { error: { message: "Internal server error" } }),
+      );
+      sendResponse(res, result, context);
     });
-    const result = renderHtml(renderedComponent, loadedData);
-
-    if (context.url) {
-      res.writeHead(302, { Location: context.url });
-      res.end();
-    } else {
-      if (context.statusCode) {
-        res.statusCode = context.statusCode;
-      }
-      res.write(result);
-      res.end();
-    }
-  });
 });
 
 app.use((err, req: Request, res: Response, _: NextFunction) => {

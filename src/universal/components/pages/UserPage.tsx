@@ -1,7 +1,11 @@
 import React, { FunctionComponentElement } from "react";
 import { Header } from "../Header";
 
-export const UserPage = (props): FunctionComponentElement<{}> => {
+interface UserPageProps {
+  name: string;
+}
+
+export const UserPage = (props: UserPageProps): FunctionComponentElement<UserPageProps> => {
   return (
     <React.Fragment>
       <Header>
